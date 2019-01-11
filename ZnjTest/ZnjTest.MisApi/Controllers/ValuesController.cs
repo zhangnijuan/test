@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ZnjTest.IBLL;
+using ZnjTest.Model.Entities;
 
 namespace ZnjTest.MisApi.Controllers
 {
@@ -10,10 +12,22 @@ namespace ZnjTest.MisApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IBaseService<AdminEntity> baseService;
+        public ValuesController(IBaseService<AdminEntity> baseService)
+        {
+            this.baseService = baseService;
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            AdminEntity admin = new AdminEntity();
+            admin.LoginName = "zhangnijuan";
+            admin.PassWord = "123";
+            admin.Name = "znj";
+            admin.Email = "23";
+            admin.Phone = "123";
+            var res = baseService.InsertAsync(admin).Result;
             return new string[] { "value1", "value2" };
         }
 
