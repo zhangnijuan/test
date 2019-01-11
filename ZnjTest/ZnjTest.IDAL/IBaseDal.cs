@@ -10,10 +10,11 @@ namespace ZnjTest.IDAL
 {
     public interface IBaseDal<T> where T : class
     {
-        Task<bool> InsertAsync(T entity);
+        Task<T> InsertAsync(T entity);
         Task<bool> DeleteAsync(T entity);
-
+        Task<bool> DeleteAsync(Expression<Func<T,bool>> deleteLamdba);
         Task<bool> UpdataAsync(T entity);
+        Task<bool> UpdataAsync(Expression<Func<T, bool>> whereLambda,Expression<Func<T, T>> updateLambda);
         IQueryable<T> GetList(Expression<Func<T, bool>> whereLambda, bool isNoTracking = true);
 
         Task<T> GetEntityAsync<TS>(TS id);

@@ -28,7 +28,7 @@ namespace ZnjTest.BLL
             return baseDal.GetList(whereLambda);
         }
 
-        public async Task<bool> InsertAsync(T entity)
+        public async Task<T> InsertAsync(T entity)
         {
             return await baseDal.InsertAsync(entity);
         }

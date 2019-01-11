@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Z.EntityFramework.Plus;
 using ZnjTest.IDAL;
 using ZnjTest.Model;
 using ZnjTest.Model.DTO;
@@ -37,6 +38,12 @@ namespace ZnjTest.DAL
             return await db.SaveChangesAsync() > 0;
         }
 
+        public async Task<bool> DeleteAsync(Expression<Func<T, bool>> deleteLamdba)
+        {
+
+            return await  this.GetList(deleteLamdba, false).DeleteAsync()>0;
+        }
+
         public async Task<T> GetEntityAsync<TS>(TS id)
         {
             return await  this.dbSet.FindAsync(id);
@@ -65,10 +72,11 @@ namespace ZnjTest.DAL
             };
         }
 
-        public async Task<bool> InsertAsync(T entity)
+        public async Task<T> InsertAsync(T entity)
         {
              this.dbSet.Add(entity);
-            return await db.SaveChangesAsync() > 0;
+             await db.SaveChangesAsync() ;
+            return entity;
         }
 
         public async Task<bool> UpdataAsync(T entity)
@@ -84,6 +92,11 @@ namespace ZnjTest.DAL
             }
             return await this.db.SaveChangesAsync()>0;
            
+        }
+
+        public async Task<bool> UpdataAsync(Expression<Func<T, bool>> whereLambda, Expression<Func<T, T>> updateLambda)
+        {
+            return await this.GetList(whereLambda,false).UpdateAsync(updateLambda) > 0;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ZnjTest.IBLL
 {
     public interface IBaseService<T> where T:class 
     {
-        Task<bool> InsertAsync(T entity);
+        Task<T> InsertAsync(T entity);
         Task<bool> DeleteAsync(T entity);
         IQueryable<T> GetList(System.Linq.Expressions.Expression<Func<T, bool>> whereLambda);
     }
